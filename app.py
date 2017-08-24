@@ -1,10 +1,10 @@
-from flask import Flask, render_template
-from prometheus_client import start_http_server, Summary, MetricsHandler
 import socket
 from time import sleep
 import logging as log
 import threading
 from BaseHTTPServer import HTTPServer
+from flask import Flask, render_template
+from prometheus_client import start_http_server, Summary, MetricsHandler
 
 app = Flask(__name__)
 PROMETHEUS_PORT = 9000
@@ -22,6 +22,7 @@ def hello_world():
 @REQUEST_TIME.time()
 def process_request():
     """A dummy function that takes some time."""
+    sleep(2)
     fqdn = socket.getfqdn()
     return fqdn
 
