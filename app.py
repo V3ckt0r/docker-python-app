@@ -4,7 +4,7 @@ import logging as log
 import threading
 from BaseHTTPServer import HTTPServer
 from flask import Flask, render_template
-from prometheus_client import start_http_server, Summary, MetricsHandler
+from prometheus_client import start_http_server, Summary, MetricsHandler, Counter
 
 app = Flask(__name__)
 PROMETHEUS_PORT = 9000
@@ -23,6 +23,8 @@ def hello_world():
 def process_request():
     """A dummy function that takes some time."""
     sleep(2)
+    c = Counter('requests_for_host', 'Number of runs of the process_request method')
+    c.inc()  # Increment by 1
     fqdn = socket.getfqdn()
     return fqdn
 
