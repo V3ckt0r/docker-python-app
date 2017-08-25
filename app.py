@@ -22,7 +22,6 @@ def hello_world():
     return 'Flask Dockerized'
 
 # Decorate function with metric.
-@REQUEST_TIME.time()
 def process_request():
     """A dummy function that takes some time."""
     sleep(2)
