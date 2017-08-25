@@ -5,11 +5,8 @@ language: bash
 services:
   - docker
 
-before_install:
-    - docker build -t vect0r/python-app .
-
 script:
-    - docker run --rm vect0r/python-app
+    - docker build -t vect0r/python-app .
 
 after_success:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then
