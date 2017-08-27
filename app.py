@@ -3,8 +3,8 @@ from time import sleep
 import logging as log
 import threading
 from BaseHTTPServer import HTTPServer
-from flask import Flask, render_template
-from prometheus_client import start_http_server, Summary, MetricsHandler, Counter
+from flask import Flask, render_template, Response
+from prometheus_client import start_http_server, Summary, MetricsHandler, Counter, generate_latest
 
 app = Flask(__name__)
 PROMETHEUS_PORT = 9000
@@ -45,6 +45,9 @@ def metric():
     ret = str(process_request())
     return "The name of this host is: {}".format(ret)
 
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 # Seperate web server for prometheus scraping
 class PrometheusEndpointServer(threading.Thread):
