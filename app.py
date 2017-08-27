@@ -14,7 +14,7 @@ REQUEST_TIME = Summary('request_processing_seconds', 'DESC: Time spent processin
 INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
 
 # Create a metric to cound the number of runs on process_request()
-c = Counter('requests_for_host', 'Number of runs of the process_request method', ['calls'. 'endpoint'])
+c = Counter('requests_for_host', 'Number of runs of the process_request method', ['calls', 'endpoint'])
 
 @app.route('/')
 @INDEX_TIME.time()
