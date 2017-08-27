@@ -8,6 +8,7 @@ from prometheus_client import start_http_server, Summary, MetricsHandler, Counte
 
 app = Flask(__name__)
 PROMETHEUS_PORT = 9000
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
 
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'DESC: Time spent processing request')
