@@ -14,11 +14,16 @@ REQUEST_TIME = Summary('request_processing_seconds', 'DESC: Time spent processin
 INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
 
 # Create a metric to cound the number of runs on process_request()
-c = Counter('requests_for_host', 'Number of runs of the process_request method')
+c = Counter('requests_for_host', 'Number of runs of the process_request method', ['calls'. 'endpoint'])
 
 @app.route('/')
 @INDEX_TIME.time()
 def hello_world():
+
+    label_dict = {"calls": "",
+                 "endpoint": "/"}
+    c.labels(**labe_dict).inc()
+
     return 'Flask Dockerized'
 
 # Decorate function with metric.
@@ -26,7 +31,12 @@ def process_request():
     """A dummy function that takes some time."""
     sleep(2)
 
-    c.inc()  # Increment by 1
+    label_dict = {"calls": "",
+                  "endpoint": "/host"}
+
+    c.labels(**labe_dict).inc()
+
+    #c.inc()  # Increment by 1
     fqdn = socket.getfqdn()
     return fqdn
 
