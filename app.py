@@ -75,14 +75,6 @@ def start_prometheus_server():
 start_prometheus_server()
 
 if __name__ == '__main__':
-    #app.run(debug=True,host='0.0.0.0')
-    
     # Start up the server to expose the metrics.
     #start_http_server(9090, '127.0.0.1')
-    #print "nefpre"
-    #sleep(5)
-    #print "after"
     app.run(debug=True,host='0.0.0.0')
-    # Generate some requests.
-   # while True:
-   #     process_request()
