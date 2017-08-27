@@ -22,7 +22,7 @@ def hello_world():
 
     label_dict = {"calls": "",
                  "endpoint": "/"}
-    c.labels(**labe_dict).inc()
+    c.labels(**label_dict).inc()
 
     return 'Flask Dockerized'
 
@@ -34,7 +34,7 @@ def process_request():
     label_dict = {"calls": "",
                   "endpoint": "/host"}
 
-    c.labels(**labe_dict).inc()
+    c.labels(**label_dict).inc()
 
     #c.inc()  # Increment by 1
     fqdn = socket.getfqdn()
