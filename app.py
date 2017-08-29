@@ -3,7 +3,7 @@ from time import sleep
 import logging as log
 import threading
 from BaseHTTPServer import HTTPServer
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 from prometheus_client import start_http_server, Summary, MetricsHandler, Counter, generate_latest
 
 app = Flask(__name__)
@@ -20,9 +20,10 @@ c = Counter('requests_for_host', 'Number of runs of the process_request method',
 @app.route('/')
 @INDEX_TIME.time()
 def hello_world():
-
-    label_dict = {"calls": "",
-                 "endpoint": "/"}
+    path = request.path
+    verb = request.method
+    label_dict = {"method": verb,
+                 "endpoint": path}
     c.labels(**label_dict).inc()
 
     return 'Flask Dockerized'
@@ -32,17 +33,17 @@ def process_request():
     """A dummy function that takes some time."""
     sleep(2)
 
-    label_dict = {"calls": "",
-                  "endpoint": "/host"}
-
-    c.labels(**label_dict).inc()
-
-    #c.inc()  # Increment by 1
     fqdn = socket.getfqdn()
     return fqdn
 
 @app.route('/host')
 def metric():
+    path = request.path
+    verb = request.method
+    label_dict = {"method": verb,
+                  "endpoint": path}
+    c.labels(**label_dict).inc()
+
     ret = str(process_request())
     return "The name of this host is: {}".format(ret)
 
@@ -75,6 +76,4 @@ def start_prometheus_server():
 start_prometheus_server()
 
 if __name__ == '__main__':
-    # Start up the server to expose the metrics.
-    #start_http_server(9090, '127.0.0.1')
     app.run(debug=True,host='0.0.0.0')
