@@ -23,7 +23,7 @@ def hello_world():
     path = request.path
     verb = request.method
     label_dict = {"method": verb,
-                 "endpoint": str(path)}
+                 "endpoint": "/"}
     c.labels(**label_dict).inc()
 
     return 'Flask Dockerized'
@@ -40,7 +40,7 @@ def process_request():
 def metric():
     path = request.path
     verb = request.method
-    label_dict = {"method": verb,
+    label_dict = {"method": "GET",
                   "endpoint": str(path)}
     c.labels(**label_dict).inc()
 
