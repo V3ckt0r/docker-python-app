@@ -22,7 +22,7 @@ c = Counter('requests_for_host', 'Number of runs of the process_request method',
 def hello_world():
     path = request.path
     verb = request.method
-    label_dict = {"method": verb,
+    label_dict = {"method": "GET",
                  "endpoint": "/"}
     c.labels(**label_dict).inc()
 
