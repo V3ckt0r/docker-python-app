@@ -15,15 +15,15 @@ REQUEST_TIME = Summary('request_processing_seconds', 'DESC: Time spent processin
 INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
 
 # Create a metric to cound the number of runs on process_request()
-c = Counter('requests_for_host', 'Number of runs of the process_request method', ['calls', 'endpoint'])
+c = Counter('requests_for_host', 'Number of runs of the process_request method', ['method', 'endpoint'])
 
 @app.route('/')
 @INDEX_TIME.time()
 def hello_world():
-    path = request.path
+    path = str(request.path)
     verb = request.method
-    label_dict = {"method": "GET",
-                 "endpoint": "/"}
+    label_dict = {"method": verb,
+                 "endpoint": path}
     c.labels(**label_dict).inc()
 
     return 'Flask Dockerized'
@@ -38,10 +38,10 @@ def process_request():
 
 @app.route('/host')
 def metric():
-    path = request.path
+    path = str(request.path)
     verb = request.method
-    label_dict = {"method": "GET",
-                  "endpoint": str(path)}
+    label_dict = {"method": verb,
+                  "endpoint": path}
     c.labels(**label_dict).inc()
 
     ret = str(process_request())
