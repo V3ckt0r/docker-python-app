@@ -37,7 +37,7 @@ def process_request():
     return fqdn
 
 @app.route('/host')
-def metric():
+def host():
     path = str(request.path)
     verb = request.method
     label_dict = {"method": verb,
